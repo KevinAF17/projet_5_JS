@@ -13,9 +13,9 @@ fetch('http://localhost:3000/api/products')
 //* MISE EN PLACE DE L'AFFICHAGE DES CANAPÉS SUR LA PAGE D'ACCUEIL GRÂCE AUX BALISES *//
 
     const items = document.getElementById("items");
-
+      console.log(canap);
     const linkSofa = document.createElement("a");
-    linkSofa.href ="./product.html?id=canap-id";
+    linkSofa.href ="./product.html?id="+canap._id;
     items.appendChild(linkSofa)
 
     const articleSofa = document.createElement("article");
