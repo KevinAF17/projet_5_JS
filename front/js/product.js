@@ -43,8 +43,8 @@ console.log("Les caractéristiques des produits sont affichées !");
 
     let colorChoices = document.querySelector ("#colors");
     let sofaQuantity = document.querySelector ("#quantity");
-
     let clickbutton = document.querySelector("#addToCart");
+
     clickbutton.addEventListener('click', function () {
     
       // Création de la liste des infos des produits à stocker dans le LocalStorage //
@@ -57,8 +57,10 @@ console.log("Les caractéristiques des produits sont affichées !");
       // Obligation de choisir une couleur et un nombre entre 1 et 100 //
     if (productOptions.colors === "") {
       alert ("Une couleur doit être sélectionnée !")
-    } else if (quantity.value > 100 && quantity.value < 1);
-
+    } else if(productOptions.quantity > 100 || productOptions.quantity < 1){
+      alert("1 produit minimum doit être sélectionné !");
+    }
+    
      // Récupérer l'intégralité des produits dans le LocalStorage //
      console.log (productOptions);
      localStorage.setItem ("id", productOptions.id);
@@ -66,5 +68,7 @@ console.log("Les caractéristiques des produits sont affichées !");
      localStorage.setItem ("quantity", productOptions.quantity);
      console.log (localStorage);
 })
+
+
     
     
