@@ -30,7 +30,7 @@ fetch("http://localhost:3000/api/products/" + id)
     for (let i=0; i < sofa.colors.length; i++) {
     let colorsSofa = document.getElementById("colors");
     let option = document.createElement("option");
-    option.value = sofa.option;
+    option.value = sofa.colors[i];
     option.textContent = sofa.colors[i];
     colorsSofa.appendChild(option);
     
@@ -41,7 +41,7 @@ fetch("http://localhost:3000/api/products/" + id)
 
 console.log("Les caractéristiques des produits sont affichées !");   
 
-    let colorChoices = document.querySelector ("#colors");
+    let colorChoices = document.querySelector ("#colors","#option");
     let sofaQuantity = document.querySelector ("#quantity");
     let clickbutton = document.querySelector("#addToCart");
 
@@ -53,13 +53,6 @@ console.log("Les caractéristiques des produits sont affichées !");
      quantity: sofaQuantity.value,
      id: id,
     };
-
-      // Obligation de choisir une couleur et un nombre entre 1 et 100 //
-    if (productOptions.colors === "") {
-      alert ("Une couleur doit être sélectionnée !")
-    } else if(productOptions.quantity > 100 || productOptions.quantity < 1){
-      alert("1 produit minimum doit être sélectionné !");
-    }
     
      // Récupérer l'intégralité des produits dans le LocalStorage //
      console.log (productOptions);
@@ -67,7 +60,30 @@ console.log("Les caractéristiques des produits sont affichées !");
      localStorage.setItem ("colors", productOptions.colors);
      localStorage.setItem ("quantity", productOptions.quantity);
      console.log (localStorage);
+
+    let productCart = JSON.parse (localStorage.getItem("addProduct"));
+    
+     // Obligation de choisir une couleur et un nombre entre 1 et 100 //
+    if (productOptions.colors === "") {
+      alert ("Une couleur doit être sélectionnée !")
+    } else if(productOptions.quantity > 100 || productOptions.quantity < 1){
+      alert ("1 produit minimum doit être sélectionné !");
+    }
+   
+   // Confirmation de l'envoi du produit dans le panier //
+    else{
+      if (productCart){
+        let researchProducts = productCart.find(productCart => (productCart.id == productOptions.id && productCart.colors == productOptions.colors));
+        if (researchProducts){
+          let refreshQuantity = researchProducts.quantity + productOptions.quantity;
+          researchProducts.quantity = refreshQuantity;
+          localStorage.setItem("addProduct", JSON.stringify(productCart))
+          alert ("Votre article a bien été ajouté à votre panier !")
+        }
+      }
+    }
 })
+
 
 
     
