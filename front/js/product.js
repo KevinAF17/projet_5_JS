@@ -62,29 +62,41 @@ console.log("Les caractéristiques des produits sont affichées !");
      console.log (localStorage);
 
     let productCart = JSON.parse (localStorage.getItem("addProduct"));
+    console.log(productCart);
     
      // Obligation de choisir une couleur et un nombre entre 1 et 100 //
     if (productOptions.colors === "") {
       alert ("Une couleur doit être sélectionnée !")
-    } else if(productOptions.quantity > 100 || productOptions.quantity < 1){
+    } 
+    else if(productOptions.quantity > 100 || productOptions.quantity < 1){
       alert ("1 produit minimum doit être sélectionné !");
-    }
-   
-   // Confirmation de l'envoi du produit dans le panier //
-    else{
-      if (productCart){
-        let researchProducts = productCart.find(productCart => (productCart.id == productOptions.id && productCart.colors == productOptions.colors));
-        if (researchProducts){
-          let refreshQuantity = researchProducts.quantity + productOptions.quantity;
-          researchProducts.quantity = refreshQuantity;
-          localStorage.setItem("addProduct", JSON.stringify(productCart))
-          alert ("Votre article a bien été ajouté à votre panier !")
-        }
-      }
-    }
-})
+      
 
+      // Le produit a déjà été sélectionné */
+     } else {
+        if (productCart){
+          const productChoice = productCart.find(p => p.id === productOptions.id && p.colors === productOptions.colors);
+          if (productChoice) {
+            let newQuantity = parseInt(productOptions.quantity) + parseInt(productChoice.quantity);
+            productChoice.quantity = newQuantity;
+            localStorage.setItem ("addProduct", JSON.stringify(productCart));
+            alert ("Ce produit est déjà dans votre panier !")
+            console.log (productChoice)
 
+            // Si le produit n'est pas présent dans le panier *//
+          } else {
+            productCart.push(productOptions);
+            localStorage.setItem("addProduct", JSON.stringify(productCart));
+            alert ("Le produit que vous avez sélectionné est dans votre panier !")
+          } 
+          
+           // Si le panier est vide *//
+          } else {
+            productCart = [];
+            productCart.push(productOptions);
+            localStorage.setItem("addProduct", JSON.stringify(productCart));
+          }
+          }})
 
-    
+          
     
