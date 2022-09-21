@@ -110,7 +110,7 @@ for(let i = 0; i < productCart.length;i++){
       }  
         quantityUpdate()
 
-   //* On récupère la quantité totale *//
+   //* On récupère la quantité totale et on calcule les prix *//
    function totalProducts(){
     if (productCart){
       let productQuantities = productCart;
@@ -129,7 +129,91 @@ for(let i = 0; i < productCart.length;i++){
   totalProducts()
 }
 )
+                  //* Mise en place des formulaires de contact *//
+
+//* Mise en place des expressions régulières *//
+let regexMail = new RegExp("[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{10,25}$");
+let regexNames = new RegExp ("[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{2,}$");
+let regexCity = new RegExp ("[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{2,}$")
+let regexAddress = new RegExp ("[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+//* Mise en place des inputs et de leurs messages d'erreurs *//
+
+let formFN = document.getElementById("firstName");
+let formFNError = document.getElementById("firstNameErrorMsg");
+
+let formLN = document.getElementById("lastName");
+let formLNError = document.getElementById("lastNameErrorMsg");
+
+let formAddress = document.getElementById("address");
+let formAddressError = document.getElementById("addressErrorMsg");
+
+let formCity = document.getElementById("city");
+let formCityError = document.getElementById("cityErrorMsg");
+
+let formMail = document.getElementById("email");
+let formMailError = document.getElementById("emailErrorMsg");
+
+//* Modification des éléments du formulaire de contact *//
+
+formFN.addEventListener("change", function(){
+  validFirstName(this);
+  });
+formLN.addEventListener("change", function(){
+  validLastName(this);
+  });
+formAddress.addEventListener("change", function(){
+  validAddress(this);
+  });
+formCity.addEventListener("change", function(){
+  validCity(this);
+  });
+formMail.addEventListener("change", function(){
+  validEmail(this);
+  });
+
+//* Validation des champs demandés par le site*//
+
+let validFirstName = function(inputFN){
+  if(regexNames.test(inputFN.value)){
+    formFNError.innerText = "Entrée acceptée !"
+  }
+  else{
+    formFNError.innerText = "Veuillez entrer un autre prénom !"
+  }
 }
 
-//* Mise en place des formulaires de contact *//
+let validLastName = function(inputLN){
+  if(regexNames.test(inputLN.value)){
+    formLNError.innerText = "Entrée acceptée !"
+  }
+  else{
+    formLNError.innerText = "Veuillez entrer un autre nom !"
+  }
+}
 
+let validAddress = function(inputAddress){
+  if(regexAddress.test(inputAddress.value)){
+    formAddressError.innerText = "Entrée acceptée !"
+  }
+  else{
+    formAddressError.innerText = "Veuillez entrer une autre adresse !"
+  }
+}
+
+let validCity = function(inputCity){
+  if(regexCity.test(inputCity.value)){
+    formCityError.innerText = "Entrée acceptée !"
+  }
+  else{
+    formCityError.innerText = "Veuillez entrer une autre ville !"
+  }
+}
+
+let validEmail = function(inputMail){
+  if (regexMail.test(inputMail.value)){
+    formMailError.innerText = "Adresse mail valide !"
+  }
+  formMailError.innerText = "Veuillez entrer une adresse mail valide !"
+}
+}
