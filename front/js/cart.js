@@ -133,27 +133,3 @@ for(let i = 0; i < productCart.length;i++){
 
 //* Mise en place des formulaires de contact *//
 
-//* Mise en place des expressions régulières *//
-
-function makeForm() {
-  let form = document.querySelector(".cart__order__form");
-     let mail = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
-     let pInfos = new RegExp("^[a-zA-Z0-9.! ,.'-]+$");
-     let address = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
- 
- //* Modification des éléments du formulaire de contact *//
- 
- makeForm.firstName.addEventListener("change", function () {
- validFirstName(this) ;
- }) ;
- makeForm.lastName.addEventListener("change", function () {
- validLastName(this) ;
- }) ;
- makeForm.address.addEventListener("change", function () {
- validAddress(this) ;
- }) ;
- makeForm.city.addEventListener("change", function () {
- validCity(this) ;
- }) ;makeForm.email.addEventListener("change", function () {
- validEmail(this) ;
- }) ;
