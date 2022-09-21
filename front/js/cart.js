@@ -93,6 +93,22 @@ for(let i = 0; i < productCart.length;i++){
         d.reload();
       }
       )
+      
+      function quantityUpdate(){
+        let productUpdate = document.querySelectorAll("itemQuantity");
+        for (let q = 0; q < productUpdate.length; q++) {
+          productUpdate[q].addEventListener("modify", (e) => {
+            e.preventDefault();
+            let productQuantityModif = productCart[q].quantity;
+            let confirmModif = productUpdate[q].valueAsNumber;
+            let resultModif = productCart.find((el) => el.confirmModif !== productQuantityModif);
+            resultModif.quantity = confirmModif;
+            productCart[q].quantity = resultModif.quantity;
+            localStorage.setItem("addProduct", JSON.stringify(productCart));
+          })
+        }
+      }  
+        quantityUpdate()
 
    //* On récupère la quantité totale *//
    function totalProducts(){
