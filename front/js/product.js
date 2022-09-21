@@ -78,14 +78,12 @@ clickbutton.addEventListener('click', function ()
         let newQuantity = parseInt(productOptions.quantity) + parseInt(productChoice.quantity);
         productChoice.quantity = newQuantity;
         localStorage.setItem ("addProduct", JSON.stringify(productCart));
-        alert ("Ce produit est déjà dans votre panier !")
         console.log (productCart)
 
         // Si le produit n'est pas présent dans le panier *//
       } else {
         productCart.push(productOptions);
         localStorage.setItem("addProduct", JSON.stringify(productCart));
-        alert ("Le produit que vous avez sélectionné est dans votre panier !")
       } 
       
       // Si le panier est vide *//

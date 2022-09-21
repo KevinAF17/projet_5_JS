@@ -16,8 +16,6 @@ for(let i = 0; i < productCart.length;i++){
 
       let sofasArticles = document.createElement("articles");
       sofasArticles.className = 'cart__item';
-      sofasArticles.dataset.id = sofa.id;
-      sofasArticles.dataset.colors = sofa.colors[i];
       cart__items.appendChild(sofasArticles);
       
       let imgSofaDiv = document.createElement("div");
@@ -46,8 +44,8 @@ for(let i = 0; i < productCart.length;i++){
       cartContentDescription.appendChild(h2Sofa);
 
       let colorDetails = document.createElement ("p");
-      colorDetails.innerHTML = sofa.colors[i];
-      colorDetails.dataset.colors = sofa.colors[i];
+
+      colorDetails.innerHTML = productCart[i].colors;
       cartContentDescription.appendChild(colorDetails);
 
       let productPrice = document.createElement("p");
@@ -63,7 +61,6 @@ for(let i = 0; i < productCart.length;i++){
       cartContentSettings.appendChild(setQuantity);
 
       let chosenQuantity = document.createElement("p");
-      chosenQuantity.value = sofa.quantity;
       chosenQuantity.innerText = "Qté :";
       cartContentSettings.appendChild(chosenQuantity);
 
@@ -73,7 +70,7 @@ for(let i = 0; i < productCart.length;i++){
       inputProductQuantity.name = 'itemQuantity';
       inputProductQuantity.min = 1;
       inputProductQuantity.max = 100;
-      inputProductQuantity.value = sofa.quantity;
+      inputProductQuantity.value = productCart[i].quantity;
       cartContentSettings.appendChild(inputProductQuantity);
 
       let deleteSetting = document.createElement("div");
@@ -85,17 +82,54 @@ for(let i = 0; i < productCart.length;i++){
       deleteText.innerText = 'Supprimer';
       deleteSetting.appendChild(deleteText);
       /* On active le bouton Supprimer */
-      deleteSetting.addEventListener ("click", (e) => {
-        e.preventDefault;
-        let deleteId = productCart.id;
-        let deleteColors = productCart.colors;
-        productCart = productCart.filter(elm => elm.id !== deleteId || elm.colors !== deleteColors);
+      deleteText.addEventListener ("click", (e) => {
+        e.preventDefault();
+        let deleteId = productCart[i].id;
+        let deleteColors = productCart[i].colors;
+        deleteProduct = productCart.filter(elm => elm.id !== deleteId || elm.colors !== deleteColors);
         e.target.closest('.cart__item').remove();
-        localStorage.removeItem("addProduct", JSON.stringify(productCart))
+        localStorage.setItem("addProduct", JSON.stringify(deleteProduct))
         alert ("Ce produit a bien été retiré du panier !");
+        d.reload();
       }
+      )
       
-    )   
+      function quantityUpdate(){
+        let productUpdate = document.querySelectorAll("itemQuantity");
+        for (let q = 0; q < productUpdate.length; q++) {
+          productUpdate[q].addEventListener("modify", (e) => {
+            e.preventDefault();
+            let productQuantityModif = productCart[q].quantity;
+            let confirmModif = productUpdate[q].valueAsNumber;
+            let resultModif = productCart.find((el) => el.confirmModif !== productQuantityModif);
+            resultModif.quantity = confirmModif;
+            productCart[q].quantity = resultModif.quantity;
+            localStorage.setItem("addProduct", JSON.stringify(productCart));
+          })
+        }
+      }  
+        quantityUpdate()
+
+   //* On récupère la quantité totale *//
+   function totalProducts(){
+    if (productCart){
+      let productQuantities = productCart;
+      let productNumbers = document.querySelector("#totalQuantity");
+      let totalItems = 0;
+      for (let sofa of productQuantities){
+        totalItems += Number (sofa.quantity);
+      }
+      productNumbers.textContent = totalItems
+    }
+    let commandPrice = document.querySelector("totalPrice");
+      priceAmount += productCart[i].quantity * finalPrice;
+      commandPrice.innerText = priceAmount;
+      console.log (priceAmount)
+    }
+  totalProducts()
 }
 )
-}        
+}
+
+//* Mise en place des formulaires de contact *//
+
