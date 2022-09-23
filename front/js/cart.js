@@ -230,7 +230,6 @@ let validEmail = function(inputMail){
 
 if (formFN === "" || formLN === "" || formAddress === "" || formCity === "" || formMail === "");
 alert = "Tous les champs du formulaire doivent être remplis pour valider la commande !";
-
 //* On récupère les éléments enregistrés dans le formulaire *//
 
 function downloadForm(){
@@ -242,18 +241,20 @@ function downloadForm(){
 }
 
 let confirmContact = {
-  firstName : formFN,
-  lastName : formLN,
-  address : formAddress,
-  city: formCity,
-  email: formMail
+  firstName : formFN.value,
+  lastName : formLN.value,
+  address : formAddress.value,
+  city: formCity.value,
+  email: formMail.value
 }
 console.log(confirmContact)
 let commandedProducts = [];
 for (let i = 0; i < productCart.length; i++){
   commandedProducts.push(productCart[i].id);
 }
+console.log(confirmContact)
 
 let form = {
   confirmContact, commandedProducts
 }
+
