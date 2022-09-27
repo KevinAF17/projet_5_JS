@@ -131,18 +131,19 @@ async function processOneElement(){
   commandPrice.innerText = totalPrice;
 }
 
-// Permet d'afficher un element + calcul du prix total
 processOneElement();
 
 
               //* Mise en place des formulaires de contact *//
+
+let completeForm = document.querySelector(".cart__order__form");
 
 //* Mise en place des expressions régulières *//
 
 let regexNames = new RegExp ("[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{2,}$");
 let regexAddress = new RegExp ("[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 let regexCity = new RegExp ("[a-zA-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{2,}$")
-let regexMail = new RegExp("[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{10,25}$");
+let regexMail = new RegExp("[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$");
 
 //* Mise en place des inputs et de leurs messages d'erreurs *//
 
@@ -226,35 +227,47 @@ let validEmail = function(inputMail){
   }
 }
 
-//* En cas d'erreurs dans le formulaire *//
-
-if (formFN === "" || formLN === "" || formAddress === "" || formCity === "" || formMail === "");
-alert = "Tous les champs du formulaire doivent être remplis pour valider la commande !";
 //* On récupère les éléments enregistrés dans le formulaire *//
 
-function downloadForm(){
   //* On active le bouton "Commander" *//
-  let confirmation = document.getElementById("order");
-  confirmation.addEventListener("click", (e) => {
+let confirmation = document.getElementById("order");
+ confirmation.addEventListener("click", (e) => {
     e.preventDefault();
   })
-}
 
-let confirmContact = {
+const confirmContact = {
   firstName : formFN.value,
   lastName : formLN.value,
   address : formAddress.value,
   city: formCity.value,
   email: formMail.value
 }
-console.log(confirmContact)
+
 let commandedProducts = [];
-for (let i = 0; i < productCart.length; i++){
-  commandedProducts.push(productCart[i].id);
-}
-console.log(confirmContact)
-
-let form = {
-  confirmContact, commandedProducts
+for (let sofas of productCart){
+  commandedProducts.push(sofas.id)
 }
 
+let form ={
+  contact : {
+  firstName : formFN,
+  lastName : formLN,
+  address : formAddress,
+  city: formCity,
+  email: formMail
+    },
+  products : commandedProducts   
+}
+
+fetch('http://localhost:3000/api/products/order', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type' : 'application/json'  
+    },
+    body: JSON.stringify(form)
+})
+.then((response) => response.json())
+.then((data)=>{
+    window.location.href = "confirmation.html?orderId=" + data.orderId;
+})
