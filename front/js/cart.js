@@ -228,46 +228,46 @@ let validEmail = function(inputMail){
 }
 
 //* On récupère les éléments enregistrés dans le formulaire *//
-
   //* On active le bouton "Commander" *//
+
 let confirmation = document.getElementById("order");
- confirmation.addEventListener("click", (e) => {
-    e.preventDefault();
-  })
 
-const confirmContact = {
-  firstName : formFN.value,
-  lastName : formLN.value,
-  address : formAddress.value,
-  city: formCity.value,
-  email: formMail.value
-}
+confirmation.addEventListener("click", function(event){
+  let commandedProducts = [];
+  for (let sofas of productCart){
+    commandedProducts.push(sofas.id)
+  }
+  console.log(commandedProducts)
+  let form ={
+    contact : {
+    firstName : formFN.value,
+    lastName : formLN.value,
+    address : formAddress.value,
+    city: formCity.value,
+    email: formMail.value
+      },
+    products : commandedProducts   
+  }
 
-let commandedProducts = [];
-for (let sofas of productCart){
-  commandedProducts.push(sofas.id)
-}
+  event.preventDefault()
 
-let form ={
-  contact : {
-  firstName : formFN,
-  lastName : formLN,
-  address : formAddress,
-  city: formCity,
-  email: formMail
-    },
-  products : commandedProducts   
-}
-
-fetch('http://localhost:3000/api/products/order', {
+  fetch('http://localhost:3000/api/products/order', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type' : 'application/json'  
     },
     body: JSON.stringify(form)
-})
-.then((response) => response.json())
-.then((data)=>{
+  }).then((response) => response.json())
+  .then((data)=>{
+    console.log("result POST");
     window.location.href = "confirmation.html?orderId=" + data.orderId;
-})
+  })}
+)
+  console.log(confirmation)
+
+
+
+
+
+
