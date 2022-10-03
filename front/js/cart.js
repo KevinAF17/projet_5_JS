@@ -64,7 +64,7 @@ async function processOneElement(){
         cartContentSettings.appendChild(setQuantity);
 
         let chosenQuantity = document.createElement("p");
-        chosenQuantity.innerText = "Qté :";
+        chosenQuantity.innerText = "Quantité :";
         cartContentSettings.appendChild(chosenQuantity);
 
         let inputProductQuantity = document.createElement("input");
@@ -75,6 +75,21 @@ async function processOneElement(){
         inputProductQuantity.max = 100;
         inputProductQuantity.value = productCart[i].quantity;
         cartContentSettings.appendChild(inputProductQuantity);
+        inputProductQuantity.addEventListener("change", (c) => {
+          c.preventDefault();
+          let productIdModif = productCart[i].id;
+          let productColorModif = productCart[i].colors;
+          let resultModif = productCart.find((m) => m.id == productIdModif) && productCart.find((m) => m.colors == productColorModif)
+          if(resultModif){
+            resultModif.quantity = Number(inputProductQuantity.value);
+            localStorage.setItem("addProduct", JSON.stringify(productCart))
+          } else {
+            productCart.push(sofa);
+            localStorage.setItem("addProduct", JSON.stringify(productCart))
+          }
+          location.reload(true);
+        }
+        )
 
         let deleteSetting = document.createElement("div");
         deleteSetting.className = 'cart__item__content__settings__delete';
@@ -93,30 +108,14 @@ async function processOneElement(){
           e.target.closest('.cart__item').remove();
           localStorage.setItem("addProduct", JSON.stringify(deleteProduct))
           alert ("Ce produit a bien été retiré du panier !");
-          d.reload();
+          location.reload(true);
         }
         )
-        
-        function quantityUpdate(){
-          let productUpdate = document.querySelectorAll("#itemQuantity");
-          for (let q = 0; q < productUpdate.length; q++) {
-            productUpdate[q].addEventListener("change", (e) => {
-              e.preventDefault();
-              let productQuantityModif = productCart[q].quantity;
-              let confirmModif = productUpdate[q].valueAsNumber;
-              let resultModif = productCart.find((el) => el.confirmModif !== productQuantityModif);
-              resultModif.quantity = confirmModif;
-              productCart[q].quantity = resultModif.quantity;
-              localStorage.setItem("addProduct", JSON.stringify(productCart));
-            })
-          }
-        }  
-          quantityUpdate()
 
       //* On calcule les prix d'un article *//
       totalPrice += productCart[i].quantity * sofa.price;
     }
-  )}
+      )}
 //* On récupère la quantité totale d'articles commandés *//
   let productQuantities = productCart;
   let productNumbers = document.querySelector("#totalQuantity");
@@ -237,7 +236,6 @@ confirmation.addEventListener("click", function(event){
   for (let sofas of productCart){
     commandedProducts.push(sofas.id)
   }
-  console.log(commandedProducts)
   let form ={
     contact : {
     firstName : formFN.value,
@@ -250,7 +248,10 @@ confirmation.addEventListener("click", function(event){
   }
 
   event.preventDefault()
-
+  
+  if(formFN.value === "" || formLN.value === "" || formAddress.value === "" || formCity.value === "" || formMail.value === ""){
+    alert ("Veuillez remplir tous les champs demandés !")
+  } else {
   fetch('http://localhost:3000/api/products/order', {
     method: 'POST',
     headers: {
@@ -263,7 +264,7 @@ confirmation.addEventListener("click", function(event){
     console.log("result POST");
     window.location.href = "confirmation.html?orderId=" + data.orderId;
   })}
-)
+})
   console.log(confirmation)
 
 
