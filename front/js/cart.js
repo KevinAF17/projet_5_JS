@@ -117,6 +117,7 @@ async function processOneElement(){
     }
       )}
 //* On récupère la quantité totale d'articles commandés *//
+function totalQuantity(){
   let productQuantities = productCart;
   let productNumbers = document.querySelector("#totalQuantity");
   let totalItems = 0;
@@ -124,6 +125,9 @@ async function processOneElement(){
   totalItems += Number (sofa.quantity);
   }
   productNumbers.textContent = totalItems
+}
+
+totalQuantity()
 
   //* On affiche le prix total de la commande *//
   let commandPrice = document.querySelector("#totalPrice");

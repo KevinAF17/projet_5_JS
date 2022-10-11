@@ -62,7 +62,6 @@ clickbutton.addEventListener('click', function ()
   console.log (localStorage);
 
   let productCart = JSON.parse (localStorage.getItem("addProduct"));
-  console.log(productCart);
 
   // Obligation de choisir une couleur et un nombre entre 1 et 100 //
   if (productOptions.colors === "") {

@@ -8,6 +8,8 @@ fetch('http://localhost:3000/api/products')
   })
   .then(function(sofa) {
 
+
+//* Boucle qui va récupérer l'intégralité des produits présents dans l'API *//    
     sofa.forEach(canap => {
 
 //* MISE EN PLACE DE L'AFFICHAGE DES CANAPÉS SUR LA PAGE D'ACCUEIL GRÂCE AUX BALISES *//
